@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Era vs. Estaba: The Artistic Duel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        .hidden { display: none; }
+        .active-tab {
+            border-bottom: 4px solid #4f46e5;
+            color: #4f46e5;
+        }
+        .target-vocab {
+            font-weight: bold;
+            color: #4f46e5;
+            text-decoration: underline;
+        }
+        .matching-item {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .selected {
+            background-color: #e0e7ff;
+            border-color: #4f46e5;
+        }
+        .matched {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .character-card {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .character-card:hover {
+            border-color: #4f46e5;
+            background-color: #f5f3ff;
+        }
+        .active-char {
+            border-color: #4f46e5;
+            background-color: #eef2ff;
+            ring: 2px solid #4f46e5;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-indigo-900 text-white p-6 shadow-lg">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold italic text-indigo-200">El Túnel del Tiempo</h1>
+                <p class="text-indigo-100 mt-1">Mastering <span class="italic">Era</span> vs. <span class="italic">Estaba</span> through Art</p>
+            </div>
+            <div id="master-timer" class="mt-4 md:mt-0 text-2xl font-mono bg-indigo-800 px-4 py-2 rounded-lg border border-indigo-400">
+                50:00
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b sticky top-0 z-50 overflow-x-auto">
+        <div class="container mx-auto flex whitespace-nowrap">
+            <button onclick="showPhase(1)" id="tab1" class="flex-1 py-4 px-6 font-semibold active-tab hover:bg-slate-50 transition">1. Warm-Up & Vocab (10m)</button>
+            <button onclick="showPhase(2)" id="tab2" class="flex-1 py-4 px-6 font-semibold hover:bg-slate-50 transition">2. The Duel (15m)</button>
+            <button onclick="showPhase(3)" id="tab3" class="flex-1 py-4 px-6 font-semibold hover:bg-slate-50 transition">3. Speed Dating (10m)</button>
+            <button onclick="showPhase(4)" id="tab4" class="flex-1 py-4 px-6 font-semibold hover:bg-slate-50 transition">4. Writing (10m)</button>
+            <button onclick="showPhase(5)" id="tab5" class="flex-1 py-4 px-6 font-semibold hover:bg-slate-50 transition">5. Reflection (5m)</button>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-6">
+
+        <!-- Phase 1: Vocab Game & Hook -->
+        <section id="phase1" class="space-y-6">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-3xl font-bold mb-4">La Galería Mental: Vocab & Warm-Up</h2>
+                
+                <div class="mb-8 p-4 bg-indigo-50 border-l-4 border-indigo-500 rounded-r-lg">
+                    <p class="text-lg"><strong>Step 1:</strong> Match the vocabulary below (10 pairs total). <br>
+                    <strong>Step 2:</strong> Look at the paintings. Write <strong>one initial sentence</strong> for each on your whiteboard table using <span class="target-vocab">era</span> or <span class="target-vocab">estaba</span> with your new vocab words!</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8 max-w-5xl mx-auto mb-10">
+                    <!-- Spanish Column -->
+                    <div class="space-y-2" id="spanish-cols">
+                        <div class="matching-item p-3 border-2 rounded-xl text-center font-bold" data-match="dark">Oscuro/a</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center font-bold" data-match="strange">Extraño/a</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center font-bold" data-match="confused">Confundido/a</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center font-bold" data-match="deformed">Deformado/a</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center font-bold" data-match="quiet">Tranquilo/a</div>
+                        <!-- New 5 Adjectives -->
+                        <div class="matching-item p-3 border-2 rounded-xl text-center font-bold" data-match="colorful">Colorido/a</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center font-bold" data-match="scary">Misterioso/a</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center font-bold" data-match="worried">Preocupado/a</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center font-bold" data-match="enormous">Enorme</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center font-bold" data-match="tired">Cansado/a</div>
+                    </div>
+                    <!-- English Column -->
+                    <div class="space-y-2" id="english-cols">
+                        <div class="matching-item p-3 border-2 rounded-xl text-center" data-id="strange">Strange / Surreal</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center" data-id="dark">Dark / Dim</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center" data-id="enormous">Enormous / Huge</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center" data-id="quiet">Quiet / Peaceful</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center" data-id="confused">Confused</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center" data-id="deformed">Deformed / Melted</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center" data-id="colorful">Colorful</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center" data-id="scary">Mysterious / Scary</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center" data-id="worried">Worried</div>
+                        <div class="matching-item p-3 border-2 rounded-xl text-center" data-id="tired">Tired</div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg/960px-Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg" alt="Las Meninas" class="rounded-lg shadow-md w-full h-64 object-cover">
+                        <p class="text-center italic text-slate-500">Las Meninas (Velázquez)</p>
+                    </div>
+                    <div class="space-y-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg" alt="Dali" class="rounded-lg shadow-md w-full h-64 object-cover">
+                        <p class="text-center italic text-slate-500">The Persistence of Memory (Dalí)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 2: The Duel -->
+        <section id="phase2" class="hidden space-y-6">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 class="text-3xl font-bold">The Artistic Duel</h2>
+                    <div id="duel-timer-container" class="hidden flex flex-col items-end">
+                        <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">Writing Time</span>
+                        <div id="duel-timer" class="text-4xl font-mono font-bold text-red-600 bg-red-50 px-4 py-1 rounded-lg border border-red-100">10:00</div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
+                        <h3 class="font-bold text-indigo-900 text-xl mb-4">Duel Rules:</h3>
+                        <ol class="list-decimal ml-6 space-y-2 text-slate-700">
+                            <li>Get assigned your painting team.</li>
+                            <li><strong>Individually:</strong> Every student must write their own set of 6 sentences on their part of the table.</li>
+                            <li><strong>Sentence Requirements:</strong> 3 with <span class="target-vocab">ERA</span> (descriptions) and 3 with <span class="target-vocab">ESTABA</span> (feelings/locations).</li>
+                            <li><strong>The Judging:</strong> Once the timer hits zero, everyone moves to a neighboring table to "judge" who has the most accurate/creative sentences.</li>
+                        </ol>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-center items-center text-center">
+                        <h4 class="font-bold text-slate-800 mb-4 italic">"May the best critic win!"</h4>
+                        <div class="flex gap-4">
+                            <button onclick="assignPainting()" class="bg-indigo-600 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-indigo-700 transition transform hover:scale-105">
+                                <i class="fa-solid fa-palette mr-2"></i>Assign Team
+                            </button>
+                            <button id="hint-btn" onclick="getHint()" class="bg-amber-500 text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-amber-600 transition hidden">
+                                <i class="fa-solid fa-lightbulb mr-2"></i>Hint (<span id="hints-left">4</span>)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="hint-display" class="hidden max-w-2xl mx-auto p-4 bg-amber-50 border-2 border-amber-200 rounded-xl mb-6 text-center italic font-semibold text-amber-900"></div>
+
+                <div id="assignment-result" class="hidden space-y-8">
+                    <div class="text-center p-6 rounded-2xl border-4 border-dashed border-indigo-200 bg-white">
+                        <h3 id="assigned-title" class="text-5xl font-bold mb-2"></h3>
+                        <p id="assigned-task" class="text-xl text-slate-600"></p>
+                    </div>
+                    
+                    <div id="assigned-image-container" class="rounded-2xl overflow-hidden shadow-2xl border-4 border-white max-w-4xl mx-auto"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 3: Speed Dating -->
+        <section id="phase3" class="hidden space-y-6">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-3xl font-bold mb-4">Art Critics in Transit</h2>
+                <div class="bg-amber-50 p-6 rounded-xl mb-6 border border-amber-200">
+                    <p class="text-xl">Stand up! Find a partner from the <strong>opposite</strong> team. </p>
+                </div>
+                
+                <div class="flex flex-col items-center">
+                    <div id="speed-timer" class="text-7xl font-mono font-bold text-indigo-600 mb-6 bg-indigo-50 px-8 py-4 rounded-2xl border-2 border-indigo-200">02:00</div>
+                    <button id="start-speed" onclick="startSpeedTimer()" class="bg-green-600 text-white px-10 py-3 rounded-full text-lg font-bold hover:bg-green-700 shadow-md">Start Round!</button>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 mt-10">
+                    <div class="p-6 border rounded-xl bg-white shadow-sm">
+                        <h4 class="font-bold text-lg text-indigo-900 border-b pb-2 mb-4">Questions to Ask:</h4>
+                        <ul class="space-y-3">
+                            <li>¿Cómo <span class="target-vocab">era</span> el estilo del artista?</li>
+                            <li>¿Cómo <span class="target-vocab">estaba</span> el personaje principal?</li>
+                        </ul>
+                    </div>
+                    <div class="p-6 border rounded-xl bg-white shadow-sm">
+                        <h4 class="font-bold text-lg text-indigo-900 border-b pb-2 mb-4">The Verdict:</h4>
+                        <p class="italic text-slate-600">"Now that you've seen their work, did their description use <strong>era</strong> for descriptions and <strong>estaba</strong> for feelings correctly?"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 4: Writing -->
+        <section id="phase4" class="hidden space-y-6">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-3xl font-bold mb-4">Creative Writing: Perspective Shift</h2>
+                <p class="text-lg mb-6 italic">Click on a character or object to see their world. Write a short paragraph (4-6 sentences) using at least 2 <span class="target-vocab">era</span> and 2 <span class="target-vocab">estaba</span>. <strong>Show your finished story to the teacher!</strong></p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="character-card p-4 border-2 rounded-xl text-center font-bold" onclick="selectChar('velazquez')">The Sleepy Dog / Infanta</div>
+                    <div class="character-card p-4 border-2 rounded-xl text-center font-bold" onclick="selectChar('dali')">The Melting Clock</div>
+                    <div class="character-card p-4 border-2 rounded-xl text-center font-bold" onclick="selectChar('velazquez')">The Painter (Velázquez)</div>
+                    <div class="character-card p-4 border-2 rounded-xl text-center font-bold" onclick="selectChar('dali')">The Desert Landscape</div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8 items-start">
+                    <textarea class="w-full h-64 p-6 border-2 rounded-xl focus:border-indigo-500 outline-none transition text-lg leading-relaxed shadow-inner" placeholder="Escribe tu historia aquí..."></textarea>
+                    
+                    <div id="writing-ref-image" class="border-4 border-white shadow-xl rounded-xl overflow-hidden min-h-[300px] flex items-center justify-center bg-slate-100 italic text-slate-400">
+                        Click a character to see the painting reference.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 5: Reflection -->
+        <section id="phase5" class="hidden space-y-6">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-3xl font-bold mb-4">Final Reflection</h2>
+                <div class="space-y-6 text-xl">
+                    <p>1. Which artist's world <span class="target-vocab">era</span> more difficult to describe? Why?</p>
+                    <p class="border-t pt-6">2. If you want to describe a character's <strong>mood</strong>, which verb do you need?</p>
+                </div>
+                <div class="mt-12 p-8 bg-slate-900 text-white rounded-2xl text-center">
+                    <h3 class="text-2xl font-bold mb-2 text-indigo-300 italic">¡Excelente Trabajo!</h3>
+                    <p class="text-slate-400">Clear your whiteboard tables and show your teacher your writing!</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        let masterTime = 50 * 60;
+        let speedTime = 120;
+        let duelTime = 10 * 60;
+        let masterInterval, speedInterval, duelInterval, selectedElement = null, hintsUsed = 0;
+        
+        const hints = [
+            { type: 'era', text: "Hint (ERA): 'La luz era muy dramática en el cuadro.' (Description of lighting)" },
+            { type: 'estaba', text: "Hint (ESTABA): 'La princesa estaba nerviosa por el retrato.' (Emotion)" },
+            { type: 'era', text: "Hint (ERA): 'El estilo de Dalí era surrealista y loco.' (Description of style)" },
+            { type: 'estaba', text: "Hint (ESTABA): 'Un reloj estaba colgado en la rama.' (Location)" }
+        ];
+
+        // Matching Logic
+        document.querySelectorAll('.matching-item').forEach(item => {
+            item.addEventListener('click', () => {
+                if (item.classList.contains('matched')) return;
+                if (!selectedElement) {
+                    selectedElement = item;
+                    item.classList.add('selected');
+                } else if (selectedElement === item) {
+                    selectedElement.classList.remove('selected');
+                    selectedElement = null;
+                } else {
+                    const matchId = item.dataset.match || item.dataset.id;
+                    const otherId = selectedElement.dataset.id || selectedElement.dataset.match;
+                    if (matchId === otherId) {
+                        item.classList.add('matched');
+                        selectedElement.classList.add('matched');
+                        selectedElement.classList.remove('selected');
+                        selectedElement = null;
+                    } else {
+                        selectedElement.classList.remove('selected');
+                        item.classList.add('bg-red-100');
+                        setTimeout(() => item.classList.remove('bg-red-100'), 500);
+                        selectedElement = null;
+                    }
+                }
+            });
+        });
+
+        function showPhase(num) {
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`phase${i}`).classList.add('hidden');
+                document.getElementById(`tab${i}`).classList.remove('active-tab');
+            }
+            document.getElementById(`phase${num}`).classList.remove('hidden');
+            document.getElementById(`tab${num}`).classList.add('active-tab');
+            if (!masterInterval) startMasterTimer();
+        }
+
+        function startMasterTimer() {
+            masterInterval = setInterval(() => {
+                if (masterTime <= 0) return clearInterval(masterInterval);
+                masterTime--;
+                const mins = Math.floor(masterTime / 60), secs = masterTime % 60;
+                document.getElementById('master-timer').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function startDuelTimer() {
+            clearInterval(duelInterval);
+            duelTime = 10 * 60;
+            const container = document.getElementById('duel-timer-container');
+            const display = document.getElementById('duel-timer');
+            container.classList.remove('hidden');
+            
+            duelInterval = setInterval(() => {
+                duelTime--;
+                const mins = Math.floor(duelTime / 60), secs = duelTime % 60;
+                display.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                if (duelTime <= 60) display.classList.add('animate-pulse');
+                
+                if (duelTime <= 0) {
+                    clearInterval(duelInterval);
+                    display.innerText = "TIME!";
+                    display.classList.remove('animate-pulse');
+                    display.classList.add('bg-red-600', 'text-white');
+                }
+            }, 1000);
+        }
+
+        function assignPainting() {
+            const resultDiv = document.getElementById('assignment-result'), title = document.getElementById('assigned-title');
+            const task = document.getElementById('assigned-task'), imgContainer = document.getElementById('assigned-image-container');
+            const hintBtn = document.getElementById('hint-btn');
+            
+            resultDiv.classList.remove('hidden');
+            hintBtn.classList.remove('hidden');
+            const isDali = Math.random() > 0.5;
+
+            if (isDali) {
+                title.innerText = "Team DALÍ";
+                title.className = "text-5xl font-bold text-amber-600 mb-2";
+                task.innerText = "Analyze the strange landscape and the state of the objects.";
+                imgContainer.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg" class="w-full h-auto">`;
+            } else {
+                title.innerText = "Team VELÁZQUEZ";
+                title.className = "text-5xl font-bold text-indigo-800 mb-2";
+                task.innerText = "Analyze the Royal court setting and the emotions of the staff.";
+                imgContainer.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg/960px-Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg" class="w-full h-auto">`;
+            }
+            
+            startDuelTimer();
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function getHint() {
+            if (hintsUsed >= 4) return;
+            const display = document.getElementById('hint-display');
+            display.classList.remove('hidden');
+            display.innerText = hints[hintsUsed].text;
+            hintsUsed++;
+            document.getElementById('hints-left').innerText = 4 - hintsUsed;
+            if (hintsUsed >= 4) {
+                document.getElementById('hint-btn').classList.add('opacity-50', 'cursor-not-allowed');
+                document.getElementById('hint-btn').disabled = true;
+            }
+        }
+
+        function selectChar(type) {
+            const container = document.getElementById('writing-ref-image');
+            document.querySelectorAll('.character-card').forEach(c => c.classList.remove('active-char'));
+            event.currentTarget.classList.add('active-char');
+            
+            if (type === 'dali') {
+                container.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg" class="w-full h-auto rounded shadow-sm">`;
+            } else {
+                container.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg/960px-Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg" class="w-full h-auto rounded shadow-sm">`;
+            }
+        }
+
+        function startSpeedTimer() {
+            clearInterval(speedInterval);
+            speedTime = 120;
+            const btn = document.getElementById('start-speed'), timerDisplay = document.getElementById('speed-timer');
+            btn.disabled = true; btn.classList.add('opacity-50');
+            speedInterval = setInterval(() => {
+                speedTime--;
+                const mins = Math.floor(speedTime / 60), secs = speedTime % 60;
+                timerDisplay.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                if (speedTime <= 0) {
+                    clearInterval(speedInterval);
+                    timerDisplay.innerText = "SWITCH!";
+                    btn.disabled = false; btn.classList.remove('opacity-50');
+                    timerDisplay.classList.add('animate-bounce', 'text-red-600');
+                    setTimeout(() => timerDisplay.classList.remove('animate-bounce'), 3000);
+                }
+            }, 1000);
+        }
+
+        window.onload = () => showPhase(1);
+    </script>
+</body>
+</html>
